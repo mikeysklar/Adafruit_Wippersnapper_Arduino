@@ -1,6 +1,6 @@
 [wokwi]
 version = 1
-elf = ".pio/build/adafruit_qtpy_esp32s2/firmware.elf"
-firmware = ".pio/build/adafruit_qtpy_esp32s2/firmware.bin"
+elf = ".pio/build/esp32_dev_module/firmware.elf"
+firmware = ".pio/build/esp32_dev_module/firmware.bin"
 gdbServerPort=3333
 

@@ -58,6 +58,13 @@ public:
     _pass = netPass;
     _username = aioUsername;
     _key = aioKey;
+    strcpy(WS._config.network.ssid, netSSID);
+    strcpy(WS._config.network.pass, netPass);
+    strcpy(WS._config.aio_key, aioKey);
+    strcpy(WS._config.aio_user, aioUsername);
+    strcpy(WS._config.aio_url, "io.adafruit.com");
+    WS._config.io_port = 8883;
+
     _mqtt_client = new WiFiClientSecure;
   }
 
@@ -172,13 +179,13 @@ public:
   void setupMQTTClient(const char *clientID) {
     //fs-backed so let's not touch for wokwi
 /*     if (strcmp(WS._config.aio_url, "io.adafruit.com") == 0) {
-      _mqtt_client->setCACert(_aio_root_ca_prod);
     } else if (strcmp(WS._config.aio_url, "io.adafruit.us") == 0) {
       _mqtt_client->setCACert(_aio_root_ca_staging);
     } else {
       _mqtt_client->setInsecure();
     } */
 
+    _mqtt_client->setCACert(_aio_root_ca_prod);
     // Construct MQTT client
     WS._mqtt = new Adafruit_MQTT_Client(
         _mqtt_client, "io.adafruit.com", 8883, clientID,
