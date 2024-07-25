@@ -53,16 +53,21 @@ public:
   */
   /**************************************************************************/
   Wippersnapper_ESP32(const char *aioUsername, const char *aioKey,
-                      const char *netSSID, const char *netPass) : Wippersnapper() {
+                      const char *netSSID, const char *netPass)
+      : Wippersnapper() {
     _ssid = netSSID;
     _pass = netPass;
     _username = aioUsername;
     _key = aioKey;
-    strcpy(WS._config.network.ssid, netSSID);
-    strcpy(WS._config.network.pass, netPass);
-    strcpy(WS._config.aio_key, aioKey);
-    strcpy(WS._config.aio_user, aioUsername);
-    strcpy(WS._config.aio_url, "io.adafruit.com");
+    // Credentials need to exist within the _config struct
+    // These are provided by the NoFS example
+    strncpy(WS._config.network.ssid, _ssid, sizeof(WS._config.network.ssid));
+    strncpy(WS._config.network.pass, _pass, sizeof(WS._config.network.pass));
+    strncpy(WS._config.aio_key, _key, sizeof(WS._config.aio_key));
+    strncpy(WS._config.aio_user, _username, sizeof(WS._config.aio_user));
+    // These are not provided by the NoFS Example and therefore need to be
+    // hardcoded
+    strncpy(WS._config.aio_url, "io.adafruit.com", sizeof(WS._config.aio_url));
     WS._config.io_port = 8883;
 
     _mqtt_client = new WiFiClientSecure;
@@ -177,19 +182,18 @@ public:
   */
   /********************************************************/
   void setupMQTTClient(const char *clientID) {
-    //fs-backed so let's not touch for wokwi
-/*     if (strcmp(WS._config.aio_url, "io.adafruit.com") == 0) {
+    if (strcmp(WS._config.aio_url, "io.adafruit.com") == 0) {
+      _mqtt_client->setCACert(_aio_root_ca_prod);
     } else if (strcmp(WS._config.aio_url, "io.adafruit.us") == 0) {
       _mqtt_client->setCACert(_aio_root_ca_staging);
     } else {
       _mqtt_client->setInsecure();
-    } */
+    }
 
-    _mqtt_client->setCACert(_aio_root_ca_prod);
     // Construct MQTT client
     WS._mqtt = new Adafruit_MQTT_Client(
-        _mqtt_client, "io.adafruit.com", 8883, clientID,
-        _username, _key);
+        _mqtt_client, WS._config.aio_url, WS._config.io_port, clientID,
+        WS._config.aio_user, WS._config.aio_key);
   }
 
   /********************************************************/
@@ -222,8 +226,8 @@ public:
 protected:
   const char *_ssid;              ///< WiFi SSID
   const char *_pass;              ///< WiFi password
-  const char *_username; /*!< Adafruit IO username. */
-  const char *_key;      /*!< Adafruit IO key. */
+  const char *_username;          /*!< Adafruit IO username. */
+  const char *_key;               /*!< Adafruit IO key. */
   WiFiClientSecure *_mqtt_client; ///< Pointer to a WiFi client object (TLS/SSL)
   WiFiMulti _wifiMulti;           ///< WiFiMulti object for multi-network mode
 
