@@ -49,6 +49,20 @@ public:
 
   /**************************************************************************/
   /*!
+  @brief  Overload for ESP32 devices without filesystem-backed provisioning.
+  */
+  /**************************************************************************/
+  Wippersnapper_ESP32(const char *aioUsername, const char *aioKey,
+                      const char *netSSID, const char *netPass) : Wippersnapper() {
+    _ssid = netSSID;
+    _pass = netPass;
+    _username = aioUsername;
+    _key = aioKey;
+    _mqtt_client = new WiFiClientSecure;
+  }
+
+  /**************************************************************************/
+  /*!
   @brief  Destructor for the Adafruit IO AirLift class.
   */
   /**************************************************************************/
@@ -156,18 +170,19 @@ public:
   */
   /********************************************************/
   void setupMQTTClient(const char *clientID) {
-    if (strcmp(WS._config.aio_url, "io.adafruit.com") == 0) {
+    //fs-backed so let's not touch for wokwi
+/*     if (strcmp(WS._config.aio_url, "io.adafruit.com") == 0) {
       _mqtt_client->setCACert(_aio_root_ca_prod);
     } else if (strcmp(WS._config.aio_url, "io.adafruit.us") == 0) {
       _mqtt_client->setCACert(_aio_root_ca_staging);
     } else {
       _mqtt_client->setInsecure();
-    }
+    } */
 
     // Construct MQTT client
     WS._mqtt = new Adafruit_MQTT_Client(
-        _mqtt_client, WS._config.aio_url, WS._config.io_port, clientID,
-        WS._config.aio_user, WS._config.aio_key);
+        _mqtt_client, "io.adafruit.com", 8883, clientID,
+        _username, _key);
   }
 
   /********************************************************/
@@ -200,6 +215,8 @@ public:
 protected:
   const char *_ssid;              ///< WiFi SSID
   const char *_pass;              ///< WiFi password
+  const char *_username; /*!< Adafruit IO username. */
+  const char *_key;      /*!< Adafruit IO key. */
   WiFiClientSecure *_mqtt_client; ///< Pointer to a WiFi client object (TLS/SSL)
   WiFiMulti _wifiMulti;           ///< WiFiMulti object for multi-network mode
 

@@ -109,11 +109,11 @@
 #define USE_PSRAM ///< Board has PSRAM, use it for dynamic memory allocation
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32S2)
 #define BOARD_ID "qtpy-esp32s2"
-#define USE_TINYUSB
+//#define USE_TINYUSB
 #define USE_STATUS_NEOPIXEL
 #define STATUS_NEOPIXEL_PIN PIN_NEOPIXEL
 #define STATUS_NEOPIXEL_NUM 1
-#define USE_PSRAM ///< Board has PSRAM, use it for dynamic memory allocation
+//#define USE_PSRAM ///< Board has PSRAM, use it for dynamic memory allocation
 #elif defined(ARDUINO_ADAFRUIT_QTPY_ESP32S3_NOPSRAM)
 #define BOARD_ID "qtpy-esp32s3"
 #define USE_TINYUSB
