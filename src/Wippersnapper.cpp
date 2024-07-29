@@ -2333,7 +2333,6 @@ void Wippersnapper::runNetFSM() {
     switch (fsmNetwork) {
     case FSM_NET_CHECK_MQTT:
       if (WS._mqtt->connected()) {
-        // WS_DEBUG_PRINTLN("Connected to Adafruit IO!");
         fsmNetwork = FSM_NET_CONNECTED;
         return;
       }
@@ -2427,6 +2426,7 @@ void Wippersnapper::runNetFSM() {
         int8_t mqttRC = WS._mqtt->connect();
         feedWDT();
         if (mqttRC == WS_MQTT_CONNECTED) {
+          WS_DEBUG_PRINTLN("Connected to Adafruit IO!");
           fsmNetwork = FSM_NET_CHECK_MQTT;
           break;
         }

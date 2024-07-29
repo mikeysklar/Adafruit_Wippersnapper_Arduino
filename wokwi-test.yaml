@@ -1,6 +1,0 @@
-name: HTTP Client Test for Adafruit WiFi Test
-version: 1
-author: Uri Shaked
-
-steps:
-  - wait-serial: 'Connected to WiFi'

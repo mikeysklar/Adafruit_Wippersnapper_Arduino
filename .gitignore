@@ -47,4 +47,10 @@ examples/Wippersnapper_demo/build/
 #Platformio artifacts
 .pio/
 
+# Venv
+.venv/
+.pyc
+
+# These sometimes contain creds!
 src/Wippersnapper_NoFS.ino
+tests/wippersnapper_valid_creds.elf
