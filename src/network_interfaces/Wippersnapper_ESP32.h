@@ -53,7 +53,8 @@ public:
   */
   /**************************************************************************/
   Wippersnapper_ESP32(const char *aioUsername, const char *aioKey,
-                      const char *netSSID, const char *netPass)
+                      const char *netSSID, const char *netPass,
+                      const char *brokerURL, uint16_t brokerPort)
       : Wippersnapper() {
     _ssid = netSSID;
     _pass = netPass;
@@ -65,10 +66,8 @@ public:
     strncpy(WS._config.network.pass, _pass, sizeof(WS._config.network.pass));
     strncpy(WS._config.aio_key, _key, sizeof(WS._config.aio_key));
     strncpy(WS._config.aio_user, _username, sizeof(WS._config.aio_user));
-    // These are not provided by the NoFS Example and therefore need to be
-    // hardcoded
-    strncpy(WS._config.aio_url, "io.adafruit.com", sizeof(WS._config.aio_url));
-    WS._config.io_port = 8883;
+    strncpy(WS._config.aio_url, brokerURL, sizeof(WS._config.aio_url));
+    WS._config.io_port = brokerPort;
 
     _mqtt_client = new WiFiClientSecure;
   }
