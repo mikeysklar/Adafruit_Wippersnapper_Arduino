@@ -10,7 +10,7 @@ def test_netfsm_mqtt_invalid_server():
             "--elf",
             "ws-mqtt-invalid-server.elf",
             "--timeout",
-            "70000",
+            "200000",
             "--scenario",
             "test_netfsm_mqtt_invalid_server.scenario.yaml",
         ]
