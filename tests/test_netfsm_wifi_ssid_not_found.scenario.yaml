@@ -1,0 +1,9 @@
+name: NetFSM, WiFi SSID Not Found
+version: 1
+author: Brent Rubell for Adafruit Industries
+
+steps:
+  - wait-serial: 'Adafruit.io WipperSnapper'
+  - wait-serial: 'Establishing network connection...'
+  - wait-serial: 'ERROR: Your requested WiFi network was not found!'
+  - wait-serial: 'ERROR [WDT RESET]: ERROR: Unable to find WiFi network, rebooting soon...'
