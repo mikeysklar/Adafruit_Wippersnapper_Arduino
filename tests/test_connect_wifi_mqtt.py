@@ -1,6 +1,20 @@
 import subprocess
 import pytest
 
+def test_netfsm_mqtt_error_auth():
+    """Test that the Wippersnapper device fails to connect to the MQTT server due to invalid credentials"""
+    result = subprocess.run(
+        [
+            "wokwi-cli",
+            "--elf",
+            "ws-mqtt-error-auth.elf",
+            "--timeout",
+            "200000",
+            "--scenario",
+            "test_netfsm_mqtt_error_auth.scenario.yaml",
+        ]
+    )
+    assert result.returncode == 0
 
 def test_netfsm_mqtt_invalid_server():
     """Test that the Wippersnapper device fails to connect to the MQTT server due to an invalid (or offline) server address provided"""

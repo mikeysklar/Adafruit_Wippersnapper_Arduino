@@ -1,0 +1,10 @@
+name: NetFSM, MQTT Server Authentication Error
+version: 1
+author: Brent Rubell for Adafruit Industries
+
+steps:
+  - wait-serial: 'Adafruit.io WipperSnapper'
+  - wait-serial: 'Establishing network connection...'
+  - wait-serial: 'Connected to WiFi!'
+  - wait-serial: 'Connecting to AIO MQTT (attempt #0)'
+  - wait-serial: 'Not authorized to connect'
