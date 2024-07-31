@@ -1,5 +1,25 @@
+# SPDX-FileCopyrightText: 2024 Brent Rubell for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
+"""Unit tests for WipperSnapper Arduino's network FSM function, runNetFsm()."""
+
 import subprocess
 import pytest
+
+def test_netfsm_establish_wifi_mqtt():
+    """Test that the Wippersnapper device connects to WiFi and MQTT successfully and transitions to the next state."""
+    result = subprocess.run(
+        [
+            "wokwi-cli",
+            "--elf",
+            f"elf/ws.elf",
+            "--timeout",
+            "200000",
+            "--scenario",
+            "test_netfsm_establish_wifi_mqtt.scenario.yaml",
+        ]
+    )
+    assert result.returncode == 0
 
 def test_netfsm_mqtt_error_auth():
     """Test that the Wippersnapper device fails to connect to the MQTT server due to invalid credentials"""
@@ -7,7 +27,7 @@ def test_netfsm_mqtt_error_auth():
         [
             "wokwi-cli",
             "--elf",
-            "ws-mqtt-error-auth.elf",
+            f"elf/ws-mqtt-error-auth.elf",
             "--timeout",
             "200000",
             "--scenario",
@@ -22,7 +42,7 @@ def test_netfsm_mqtt_invalid_server():
         [
             "wokwi-cli",
             "--elf",
-            "ws-mqtt-invalid-server.elf",
+            f"elf/ws-mqtt-invalid-server.elf",
             "--timeout",
             "200000",
             "--scenario",
@@ -38,7 +58,7 @@ def test_netfsm_establish_wifi():
         [
             "wokwi-cli",
             "--elf",
-            "ws-establish-wifi.elf",
+            f"elf/ws-establish-wifi.elf",
             "--timeout",
             "50000",
             "--scenario",
@@ -56,7 +76,7 @@ def test_netfsm_wifi_ssid_not_found():
         [
             "wokwi-cli",
             "--elf",
-            "ws-invalid-net-ssid.elf",
+            f"elf/ws-invalid-net-ssid.elf",
             "--timeout",
             "55000",
             "--scenario",
@@ -72,7 +92,7 @@ def test_netfsm_wifi_invalid_pass():
         [
             "wokwi-cli",
             "--elf",
-            "ws-invalid-net-password.elf",
+            f"elf/ws-invalid-net-password.elf",
             "--timeout",
             "55000",
             "--scenario",
