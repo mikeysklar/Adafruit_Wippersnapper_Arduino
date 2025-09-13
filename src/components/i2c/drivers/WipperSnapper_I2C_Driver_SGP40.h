@@ -147,13 +147,22 @@ public:
 
 protected:
   Adafruit_SGP40 *_sgp40; ///< SGP40
-  // background accumulation state
-  uint32_t _lastFastMs = 0;
-  uint32_t _n = 0;
-  float _vocSum = 0.0f;
-  uint32_t _rawSum = 0;
 
-  // enable fast sampling if either output is requested
+  // background accumulation state
+  uint32_t _lastFastMs = 0; ///< Millis timestamp of last 1 Hz background read.
+  uint32_t _n = 0;          ///< Number of samples accumulated since last publish.
+  float _vocSum = 0.0f;     ///< Running sum of VOC Index samples for averaging.
+  uint32_t _rawSum = 0;     ///< Running sum of raw SGP40 samples for averaging.
+
+  /*******************************************************************************/
+  /*!
+      @brief  Returns whether VOC background sampling should be active.
+      @return True if either VOC Index or raw metrics are configured to publish.
+  */
+  /*******************************************************************************/
+  inline bool vocEnabled() {
+    return (getSensorVOCIndexPeriod() > 0) || (getSensorRawPeriod() > 0);
+  }
   inline bool vocEnabled() {
     return (getSensorVOCIndexPeriod() > 0) || (getSensorRawPeriod() > 0);
   }
